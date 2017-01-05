@@ -1,22 +1,23 @@
 package querydsl.domains;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "user")
-public class User {
-
+@Table(name = "user_login")
+public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column (nullable = false)
+    @Column (name = "name",nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     protected User() {
