@@ -5,18 +5,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import querydsl.domains.User;
 import querydsl.domains.UserRepository;
+import querydsl.infrastructure.filter.FilterService;
+import querydsl.services.abstractservice.AbstractService;
 
 /**
  * Created by Larissa on 04/01/2017.
  */
 @Service
-public class UserService {
+public class UserService extends AbstractService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserService(FilterService filterService) {
+        super(filterService);
+    }
 
     @Transactional
     public User createOrUpdate(User user) {
        return userRepository.save(user);
     }
+
 }
