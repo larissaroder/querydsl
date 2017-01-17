@@ -8,9 +8,6 @@ import querydsl.domains.UserRepository;
 import querydsl.infrastructure.filter.FilterService;
 import querydsl.services.abstractservice.AbstractService;
 
-/**
- * Created by Larissa on 04/01/2017.
- */
 @Service
 public class UserService extends AbstractService{
 
