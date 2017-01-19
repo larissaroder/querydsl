@@ -1,7 +1,10 @@
 package querydsl.domains;
 
+import com.google.common.collect.Sets;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_login")
@@ -19,6 +22,13 @@ public class User implements Serializable{
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @ElementCollection
+    @CollectionTable(name = "user_login_phone",
+            joinColumns = @JoinColumn(name = "user_login_fk"),
+            indexes = @Index(columnList = "user_login_fk"),
+            uniqueConstraints = @UniqueConstraint(columnNames = { "user_login_fk", "phone_number" }))
+    private Set<Phone> phones = Sets.newHashSet();
 
     protected User() {
     }
@@ -39,11 +49,16 @@ public class User implements Serializable{
         return password;
     }
 
+    public Set<Phone> getPhones() {
+        return phones;
+    }
+
     private User(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.email = builder.email;
         this.password = builder.password;
+        this.phones = builder.phones;
     }
 
     public static Builder builder() {
@@ -58,6 +73,8 @@ public class User implements Serializable{
         private String email;
 
         private String password;
+
+        private Set<Phone> phones;
 
         private Builder() {
 
@@ -80,6 +97,11 @@ public class User implements Serializable{
 
         public Builder withPassword(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder withPhones (Set<Phone> phones) {
+            this.phones = phones;
             return this;
         }
 

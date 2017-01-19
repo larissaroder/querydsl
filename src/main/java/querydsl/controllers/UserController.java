@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import querydsl.domains.User;
 import querydsl.domains.filters.UserFilterByName;
+import querydsl.domains.filters.UserFilterPhoneNumber;
 import querydsl.infrastructure.Responses;
 import querydsl.services.UserService;
 
@@ -34,6 +35,17 @@ public class UserController {
         try {
             List<String> names = userService.find(new UserFilterByName("Larissa"));
             return Responses.ok(names);
+        } catch (Exception e){
+            return Responses.internalServerError(e.getMessage());
+        }
+
+    }
+
+    @RequestMapping(value = "/userWithPhone", method = RequestMethod.GET)
+    public ResponseEntity getUsersWithOnePhoneNumber() {
+        try {
+            User user = userService.find(new UserFilterPhoneNumber("18998898"));
+            return Responses.ok(user);
         } catch (Exception e){
             return Responses.internalServerError(e.getMessage());
         }
