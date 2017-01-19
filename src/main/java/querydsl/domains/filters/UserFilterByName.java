@@ -28,7 +28,7 @@ public class UserFilterByName implements Filter<List<String>>{
     @Override
     public List<String> apply(JPAQueryFactory jpaQueryFactory) {
         JPAQuery<String> names = jpaQueryFactory.select(QUser.user.name).
-                from(QUser.user);
+                from(QUser.user).where(createWherePredicate());
         return names.fetch();
     }
 }
